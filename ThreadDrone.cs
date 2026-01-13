@@ -1,3 +1,5 @@
+using Spectre.Console;
+
 namespace DroneDelivery
 {
     public class ThreadDrone
@@ -7,10 +9,12 @@ namespace DroneDelivery
             double currentLat = 60.39;
             double currentLng = 5.32;
 
-            Console.WriteLine("Thread Drone: Initializing engines...");
+            AnsiConsole.MarkupLine("[bold green]Thread Drone: Initializing engines...[/]");
 
             foreach (var point in route)
             {
+                AnsiConsole.MarkupLine($"[yellow]Checking checkpoint:[/] {point.Name}");
+                
                 double distance = tower.CalculateDistance(
                     currentLat,
                     currentLng,
@@ -18,18 +22,19 @@ namespace DroneDelivery
                     point.Lng
                 );
                 int flightTimeInMs = (int)(distance);
-                if (flightTimeInMs < 500)
-                    flightTimeInMs = 500;
+                
+                if (flightTimeInMs < 1000)
+                    flightTimeInMs = 1000;
               
                 if (point.Wind > 12)
                 {
-                    Console.WriteLine($"[ALERT] {point.Name} is too windy! Aborting.");
+                    AnsiConsole.MarkupLine($"[red][[ALERT]][/] {point.Name} is too windy! Aborting.");
                     
                     return;
                 }
 
-                Console.WriteLine($"[FLYING] Reached {point.Name}. Weather is good.");
-                Console.WriteLine($"Expected flight time:{flightTimeInMs / 1000}s");
+                AnsiConsole.MarkupLine($"[blue][[FLYING]][/] Reached {point.Name}. Weather is good.");
+                AnsiConsole.MarkupLine($"Expected flight time:{flightTimeInMs / 1000}s");
                 
                 Thread.Sleep(flightTimeInMs);
                 //So next checkpoint starts from previous checkpoint's location'
@@ -37,7 +42,7 @@ namespace DroneDelivery
                 currentLng = point.Lng;
             }
 
-            Console.WriteLine("Thread Drone: Delivery Complete!");
+            AnsiConsole.MarkupLine("[bold green]Thread Drone: Delivery Complete![/]");
         }
     }
 }

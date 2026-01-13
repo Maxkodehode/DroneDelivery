@@ -13,13 +13,16 @@ namespace DroneDelivery
             while (keepRunning)
             {
                 Console.Clear();
+                
                 List<Checkpoint> missionRoute = await tower.GetDroneRoute();
+                
+                
 
                 var options = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("Options")
                         .WrapAround()
-                        .AddChoices("Thread Drone", "Task drone", "Async Drone", "[red]Exit[/]")
+                        .AddChoices("[blue]Thread Drone[/]", "[blue]Task drone[/]", "[blue]Async Drone[/]", "[red]Exit[/]")
                 );
 
                 if (options == "[red]Exit[/]")
@@ -32,7 +35,7 @@ namespace DroneDelivery
 
                 switch (options)
                 {
-                    case "Thread Drone":
+                    case "[blue]Thread Drone[/]":
                         var drone1 = new ThreadDrone();
                         Thread droneThread = new Thread(() =>
                             drone1.RunThreadedMission(missionRoute, tower)
@@ -41,12 +44,12 @@ namespace DroneDelivery
                         droneThread.Join();
                         break;
 
-                    /*case "Task drone":
+                    /*case "[blue]Task drone[/]":
                         var drone2 = new TaskDroneMission();
                         await drone2.StartMission(missionRoute);
                         break;
 
-                    case "Async Drone":
+                    case "[blue]Async Drone[/]":
                         var drone3 = new AsyncDroneMission();
                         await drone3.StartMission(missionRoute);*/
                 }

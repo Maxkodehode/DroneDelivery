@@ -21,9 +21,9 @@ namespace DroneDelivery
         public string Name { get; set; }
         public double Temp { get; set; }
         public double Wind { get; set; }
-        
+
         public double Lat { get; set; }
-        
+
         public double Lng { get; set; }
 
         //Returns true if the weather is good
@@ -46,8 +46,8 @@ namespace DroneDelivery
                         Name = obs.stationName,
                         Temp = double.TryParse(obs.temperature, out var t) ? t : 0,
                         Wind = double.TryParse(obs.windSpeed, out var w) ? w : 0,
-                        Lat = obs.lat, 
-                        Lng = obs.lng
+                        Lat = obs.lat,
+                        Lng = obs.lng,
                     }
                 );
             }
@@ -58,10 +58,10 @@ namespace DroneDelivery
         private async Task<string> FetchRawWeatherData()
         {
             using var client = new HttpClient();
-            
+
             // Random latitude variable
             double randomLat = new Random().NextDouble() * (45.0 - 35.0) + 35.0;
-            
+
             string url =
                 $"http://api.geonames.org/weatherJSON?north={randomLat + 2}&south={randomLat - 2}&east=-22.4&west=55.2&username=Maxkodehode";
             return await client.GetStringAsync(url);
