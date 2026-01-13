@@ -51,7 +51,7 @@ namespace DroneDelivery
                         await drone3.StartMission(missionRoute);*/
                 }
 
-                AnsiConsole.MarkupLine("\n[grey]Press any key to return to the menu...[/]");
+                AnsiConsole.MarkupLine("\n[grey]Press any key to return to the menu..[/]");
                 Console.ReadKey(true);
             }
         }

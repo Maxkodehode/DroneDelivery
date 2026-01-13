@@ -20,7 +20,7 @@ namespace DroneDelivery
                 int flightTimeInMs = (int)(distance);
                 if (flightTimeInMs < 500)
                     flightTimeInMs = 500;
-                // Apply your logical check here
+              
                 if (point.Wind > 12)
                 {
                     Console.WriteLine($"[ALERT] {point.Name} is too windy! Aborting.");
@@ -32,6 +32,7 @@ namespace DroneDelivery
                 Console.WriteLine($"Expected flight time:{flightTimeInMs / 1000}s");
                 
                 Thread.Sleep(flightTimeInMs);
+                //So next checkpoint starts from previous checkpoint's location'
                 currentLat = point.Lat;
                 currentLng = point.Lng;
             }

@@ -58,8 +58,10 @@ namespace DroneDelivery
         private async Task<string> FetchRawWeatherData()
         {
             using var client = new HttpClient();
+            
             // Random latitude variable
             double randomLat = new Random().NextDouble() * (45.0 - 35.0) + 35.0;
+            
             string url =
                 $"http://api.geonames.org/weatherJSON?north={randomLat + 2}&south={randomLat - 2}&east=-22.4&west=55.2&username=Maxkodehode";
             return await client.GetStringAsync(url);
