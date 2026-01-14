@@ -36,11 +36,12 @@ namespace DroneDelivery
 
                     return;
                 }
-
+                AnsiConsole.MarkupLine(
+                    $"[blue][[FLYING]][/]Weather is good_Expected flight [blue]time:{flightTimeInMs / 1000}s[/]"
+                );
                 AnsiConsole.MarkupLine(
                     $"[bold darkblue]{droneId}[/]_[blue][[FLYING]][/] Reached {point.Name}. Weather is good."
                 );
-                AnsiConsole.MarkupLine($"Expected flight time:{flightTimeInMs / 1000}s");
 
                 Thread.Sleep(flightTimeInMs);
                 //So next checkpoint starts from previous checkpoint's location'

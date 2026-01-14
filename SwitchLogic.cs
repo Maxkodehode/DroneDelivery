@@ -11,11 +11,14 @@ namespace DroneDelivery
             List<Thread> droneThread = new List<Thread>();
             int numberOfDrones = 3;
 
+            //place within for different delivery route and outside the for loop for same route for all drones
+            List<Checkpoint> missionRoute = await _tower.GetDroneRoute();
+
             for (int i = 1; i <= numberOfDrones; i++)
             {
                 string droneId = $"Drone-{i}";
                 var drone = new ThreadDrone();
-                List<Checkpoint> missionRoute = await _tower.GetDroneRoute();
+
                 Thread t = new Thread(() =>
                     drone.RunThreadedMission(missionRoute, _tower, droneId)
                 );
@@ -25,6 +28,12 @@ namespace DroneDelivery
 
                 Console.WriteLine($"{droneId} has been deployed!");
             }
+
+            foreach (Thread t in droneThread)
+            {
+                t.Join();
+            }
+            AnsiConsole.MarkupLine($"[yellow]All drones have now returned to base[/]");
 
             /*
               List<Checkpoint> missionRoute = await _tower.GetDroneRoute();
@@ -40,8 +49,6 @@ namespace DroneDelivery
   
               droneThread1.Join();
               droneThread2.Join();*/
-
-            AnsiConsole.MarkupLine($"[yellow]All drones have now returned from mission[/]");
         }
     }
 }

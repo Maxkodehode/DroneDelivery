@@ -36,8 +36,6 @@ namespace DroneDelivery
                 {
                     case "[blue]Thread Drone[/]":
                         var selector = new SwitchSelection();
-
-                        // Call the method (and await it since we made it async to get the route)
                         await selector.RunDroneThreads();
                         break;
 
