@@ -4,21 +4,21 @@ namespace DroneDelivery
 {
     public class WeatherResponse
     {
-        public List<WeatherObservation> weatherObservations { get; set; }
+        public List<WeatherObservation>? weatherObservations { get; set; }
     }
 
     public class WeatherObservation
     {
-        public string stationName { get; set; }
-        public string temperature { get; set; }
-        public string windSpeed { get; set; }
+        public string? stationName { get; set; }
+        public string? temperature { get; set; }
+        public string? windSpeed { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
     }
 
     public class Checkpoint
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public double Temp { get; set; }
         public double Wind { get; set; }
 

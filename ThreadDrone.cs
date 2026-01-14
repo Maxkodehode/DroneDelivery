@@ -4,17 +4,19 @@ namespace DroneDelivery
 {
     public class ThreadDrone
     {
-        public void RunThreadedMission(List<Checkpoint> route, ControlTower tower)
+        public void RunThreadedMission(List<Checkpoint> route, ControlTower tower, string droneId)
         {
             double currentLat = 60.39;
             double currentLng = 5.32;
 
-            AnsiConsole.MarkupLine("[bold green]Thread Drone: Initializing engines...[/]");
+            AnsiConsole.MarkupLine(
+                $"[bold darkblue]{droneId}[/][bold green]: Initializing engines...[/]"
+            );
 
             foreach (var point in route)
             {
-                AnsiConsole.MarkupLine($"[yellow]Checking checkpoint:[/] {point.Name}");
-                
+                //AnsiConsole.MarkupLine($"[yellow]Checking checkpoint:[/] {point.Name}");
+
                 double distance = tower.CalculateDistance(
                     currentLat,
                     currentLng,
@@ -22,27 +24,33 @@ namespace DroneDelivery
                     point.Lng
                 );
                 int flightTimeInMs = (int)(distance);
-                
+
                 if (flightTimeInMs < 1000)
                     flightTimeInMs = 1000;
-              
+
                 if (point.Wind > 12)
                 {
-                    AnsiConsole.MarkupLine($"[red][[ALERT]][/] {point.Name} is too windy! Aborting.");
-                    
+                    AnsiConsole.MarkupLine(
+                        $"[bold darkblue]{droneId}[/]_[red][[ALERT]][/] {point.Name} is too windy! Aborting."
+                    );
+
                     return;
                 }
 
-                AnsiConsole.MarkupLine($"[blue][[FLYING]][/] Reached {point.Name}. Weather is good.");
+                AnsiConsole.MarkupLine(
+                    $"[bold darkblue]{droneId}[/]_[blue][[FLYING]][/] Reached {point.Name}. Weather is good."
+                );
                 AnsiConsole.MarkupLine($"Expected flight time:{flightTimeInMs / 1000}s");
-                
+
                 Thread.Sleep(flightTimeInMs);
                 //So next checkpoint starts from previous checkpoint's location'
                 currentLat = point.Lat;
                 currentLng = point.Lng;
             }
 
-            AnsiConsole.MarkupLine("[bold green]Thread Drone: Delivery Complete![/]");
+            AnsiConsole.MarkupLine(
+                $"[bold darkblue]{droneId}[/]:[bold green] Delivery Complete![/]"
+            );
         }
     }
 }
