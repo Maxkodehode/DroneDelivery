@@ -23,27 +23,28 @@ namespace DroneDelivery
                     point.Lat,
                     point.Lng
                 );
-                int flightTimeInMs = (int)(distance);
+                int flightTimeInMs = (int)distance > 1000 ? (int)distance : 1000;
 
-                if (flightTimeInMs < 1000)
-                    flightTimeInMs = 1000;
-
-                if (point.Wind > 12)
+                if (!point.IsSafe)
                 {
                     AnsiConsole.MarkupLine(
-                        $"[bold darkblue]{droneId}[/]_[red][[ALERT]][/] {point.Name} is too windy! Aborting."
+                        $"[bold darkblue]{droneId}[/]: [red][[HAZARD]][/] High winds at {point.Name} ([red]{point.Wind} m/s[/]). Skipping checkpoint."
                     );
-
-                    return;
+                    continue;
                 }
+
                 AnsiConsole.MarkupLine(
-                    $"[blue][[FLYING]][/]Weather is good_Expected flight [blue]time:{flightTimeInMs / 1000}s[/]"
-                );
-                AnsiConsole.MarkupLine(
-                    $"[bold darkblue]{droneId}[/]_[blue][[FLYING]][/] Reached {point.Name}. Weather is good."
+                    $"[bold darkblue]{droneId}[/]: [blue][[EN ROUTE]][/] To [white]{point.Name}[/]. ETA: [yellow]{flightTimeInMs / 1000}s[/]."
                 );
 
                 Thread.Sleep(flightTimeInMs);
+
+                AnsiConsole.MarkupLine(
+                    $"[bold darkblue]{droneId}[/]: [bold green][[ARRIVED]][/] Docked at {point.Name}. Updating telemetry..."
+                );
+
+                Thread.Sleep(1000);
+
                 //So next checkpoint starts from previous checkpoint's location'
                 currentLat = point.Lat;
                 currentLng = point.Lng;

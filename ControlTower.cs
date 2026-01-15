@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Spectre.Console;
 
 namespace DroneDelivery
 {
@@ -19,7 +20,7 @@ namespace DroneDelivery
     public class Checkpoint
     {
         public string? Name { get; set; }
-        public double Temp { get; set; }
+
         public double Wind { get; set; }
 
         public double Lat { get; set; }
@@ -27,7 +28,7 @@ namespace DroneDelivery
         public double Lng { get; set; }
 
         //Returns true if the weather is good
-        public bool IsSafe => Temp > -5 && Wind < 12;
+        public bool IsSafe => Wind < 12;
     }
 
     public class ControlTower
@@ -44,7 +45,6 @@ namespace DroneDelivery
                     new Checkpoint
                     {
                         Name = obs.stationName,
-                        Temp = double.TryParse(obs.temperature, out var t) ? t : 0,
                         Wind = double.TryParse(obs.windSpeed, out var w) ? w : 0,
                         Lat = obs.lat,
                         Lng = obs.lng,
@@ -64,7 +64,17 @@ namespace DroneDelivery
 
             string url =
                 $"http://api.geonames.org/weatherJSON?north={randomLat + 2}&south={randomLat - 2}&east=-22.4&west=55.2&username=Maxkodehode";
-            return await client.GetStringAsync(url);
+            client.Timeout = TimeSpan.FromSeconds(5);
+
+            try
+            {
+                return await client.GetStringAsync(url);
+            }
+            catch (Exception e)
+            {
+                AnsiConsole.MarkupLine($"[red]Tower Connection Error: {e.Message}[/]");
+                return "{\"weatherObservations\": []}";
+            }
         }
 
         public async Task<List<WeatherObservation>> GetCleanData()

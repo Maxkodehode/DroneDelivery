@@ -32,22 +32,16 @@ namespace DroneDelivery
 
                 AnsiConsole.MarkupLine($"You selected [bold blue]{options}[/]");
 
-                switch (options)
+                var selector = new SwitchSelection();
+                
+                Task selectedTask = options switch
                 {
-                    case "[blue]Thread Drone[/]":
-                        var selector = new SwitchSelection();
-                        await selector.RunDroneThreads();
-                        break;
-
-                    /*case "[blue]Task drone[/]":
-                        var drone2 = new TaskDroneMission();
-                        await drone2.StartMission(missionRoute);
-                        break;
-    
-                    case "[blue]Async Drone[/]":
-                        var drone3 = new AsyncDroneMission();
-                        await drone3.StartMission(missionRoute);*/
-                }
+                    "[blue]Thread Drone[/]" => selector.RunDroneThreads(), 
+                    "[blue]Task drone[/]"   => selector.RunDroneTasks(), 
+                    "[blue]Async Drone[/]" => selector.RunDroneAsync(),
+                    _                       => Task.CompletedTask          
+                };
+                await selectedTask;
 
                 AnsiConsole.MarkupLine("\n[grey]Press any key to return to the menu..[/]");
                 Console.ReadKey(true);
