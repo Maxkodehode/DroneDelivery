@@ -1,19 +1,20 @@
 # C# Intermediate Assignment: Drone Dash
 
-This is a drone delivery simulator where I test different ways of handling multiple tasks at once in C#. I used a real weather API to make the simulation dynamic.
+This is a drone delivery simulator where I test different ways of handling multiple tasks at once in C#.
+I used a real weather API to make the simulation dynamic.
 
 ## Requirements
 * **Framework**: The program is built using .NET 10.
 * **Internet Connection**: Needed to fetch weather data from the GeoNames API.
 * **NuGet Packages**:
     * `Spectre.Console`
-    * `System.Text.Json` (Built-in)
+    * `System.Text.Json`
 
 ## How to run the program
 You can run this project in several ways:
 
 ### 1. Using the "Play" button (IDE)
-If you are using **JetBrains Rider** or **Visual Studio**, simply open the project and press the **Run/Play** button.
+If you are using **JetBrains Rider** or **Visual Studio**, open the project and press the **Run/Play** button.
 
 ### 2. Using the Terminal (IDE or OS)
 1. Open your terminal (Built-in IDE terminal or Command Prompt/Bash).
@@ -47,7 +48,8 @@ Use the **arrow keys** to navigate the menu and press **Enter** to select the me
 * I used a math formula (Haversine) to calculate the real distance between checkpoints so the flight time is dynamic.
 
 ## Troubleshooting
-If the API is down or the internet is slow, I added a **5-second timeout**. The program will catch the error and use a "fallback" route so it doesn't crash.
+If the API is down or the internet is slow, I added a **5-second timeout**.
+The program will catch the error and use a "fallback" route so it doesn't crash.
 
 
 
