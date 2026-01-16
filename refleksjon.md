@@ -24,6 +24,24 @@ apply decision logic to determine if the drone should/can fly to the next checkp
 When commenting out the t.join in Thread-Drone,
 the program will tell me all drones are finished while the drone is still flying to the next checkpoint.
 
+I noticed when Async drone initially starts up the log output in sequential order, but after the first step is finished, the log output in parallel.
 
 
- 
+
+
+### What did you observe when commenting out the "Join" in Part A and why?
+
+When I comment out the join, the program will tell me all drones are finished while the drone is still flying to the next checkpoint.
+
+### What was most challenging in the world consumers HTTP asynchronously? How did you fix timeouts / errors?
+
+I had to implement a timeout mechanism with a try/catch to prevent the program from hanging.
+
+### Just as two concrete situations blocking in asynchronous methods lead to problems.
+
+1. You can run into a problem if you create a new thread for every request
+   which will wait for a response and might not complete the task before you have run out of threads.
+
+2. The program might stall if the thread is waiting for a condition that will not happen because the program has halted before the condition can be met.
+
+

@@ -14,7 +14,6 @@ namespace DroneDelivery
 
                 try
                 {
-
                     var options = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                             .Title("Options")
@@ -42,7 +41,7 @@ namespace DroneDelivery
                         "[blue]Thread Drone[/]" => selector.RunDroneThreads(),
                         "[blue]Task drone[/]" => selector.RunDroneTasks(),
                         "[blue]Async Drone[/]" => selector.RunDroneAsync(),
-                        _ => Task.CompletedTask
+                        _ => Task.CompletedTask,
                     };
                     await selectedTask;
                 }
@@ -50,11 +49,17 @@ namespace DroneDelivery
                 {
                     if (ex.Data.Contains("WindSpeed"))
                     {
-                        AnsiConsole.MarkupLine($"[bold red]CRITICAL FAILURE:[/] Dangerous winds detected at [bold blue][[{ex.Data["Location"]}]][/].");
-                        AnsiConsole.MarkupLine($"[bold yellow]WIND SPEED:[/] {ex.Data["WindSpeed"]} m/s (Limit: 12 m/s)");
+                        AnsiConsole.MarkupLine(
+                            $"[bold red]CRITICAL FAILURE:[/] Dangerous winds detected at [bold blue][[{ex.Data["Location"]}]][/]."
+                        );
+                        AnsiConsole.MarkupLine(
+                            $"[bold yellow]WIND SPEED:[/] {ex.Data["WindSpeed"]} m/s (Limit: 12 m/s)"
+                        );
                     }
-                    
-                    AnsiConsole.MarkupLine($"\n[Orange1]System Message:[/] [bold steelblue]{ex.Message}[/]");
+
+                    AnsiConsole.MarkupLine(
+                        $"\n[Orange1]System Message:[/] [bold steelblue]{ex.Message}[/]"
+                    );
                 }
 
                 AnsiConsole.MarkupLine("\n[grey]Press any key to return to the menu..[/]");
