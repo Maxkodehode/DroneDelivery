@@ -31,7 +31,7 @@ namespace DroneDelivery
 
             foreach (Thread t in droneThread)
             {
-                //t.Join();
+                t.Join();
             }
             AnsiConsole.MarkupLine($"[yellow]All drones have now returned to base[/]");
         }
@@ -55,15 +55,8 @@ namespace DroneDelivery
                 Console.WriteLine($"{droneId} has been deployed!");
             }
 
-            try 
-            {
-                await Task.WhenAll(droneTasks);
-                AnsiConsole.MarkupLine($"[yellow]All drones have now returned to base[/]");
-            }
-            catch (Exception)
-            {
-                AnsiConsole.MarkupLine("[bold red]Mission aborted: One or more drones suffered a critical failure.[/]");
-            }
+            await Task.WhenAll(droneTasks);
+            AnsiConsole.MarkupLine($"[yellow]All drones have now returned to base[/]");
         }
 
         public async Task RunDroneAsync()

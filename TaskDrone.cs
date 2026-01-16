@@ -32,8 +32,12 @@ namespace DroneDelivery
 
                         if (point.Wind > 17)
                         {
-                            throw new Exception("Motor failure due to storm!");
+                            var ex = new Exception("Motor failure due to storm!");
+                            ex.Data["Location"] = point.Name;
+                            ex.Data["WindSpeed"] = point.Wind;
+                            throw ex;
                         }
+
                         if (!point.IsSafe)
                         {
                             AnsiConsole.MarkupLine(
@@ -43,7 +47,7 @@ namespace DroneDelivery
                         }
 
                         AnsiConsole.MarkupLine(
-                            $"[bold darkblue]{droneId}[/]: [blue][[EN ROUTE]][/] To [white]{point.Name}[/]. ETA: [yellow]{flightTimeInMs / 1000}s[/]."
+                            $"[bold darkblue]{droneId}[/]: [blue][[EN ROUTE]][/]  To [white]{point.Name}[/]. Current wind speed: [purple]({point.Wind} m/s).[/] ETA: [yellow]{flightTimeInMs / 1000}s[/]."
                         );
 
                         await Task.Delay(flightTimeInMs);
@@ -54,7 +58,7 @@ namespace DroneDelivery
 
                         await Task.Delay(1000);
 
-                        // Update Position
+                        //So next checkpoint starts from previous checkpoint's location'
                         currentLat = point.Lat;
                         currentLng = point.Lng;
                     }
@@ -66,7 +70,6 @@ namespace DroneDelivery
                 }
                 catch (Exception ex)
                 {
-                    AnsiConsole.WriteException(ex);
                     tcs.SetException(ex);
                 }
             });

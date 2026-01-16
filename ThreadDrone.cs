@@ -17,7 +17,7 @@ namespace DroneDelivery
             {
                 //AnsiConsole.MarkupLine($"[yellow]Checking checkpoint:[/] {point.Name}");
 
-                double distance = tower.CalculateDistance(
+                var distance = tower.CalculateDistance(
                     currentLat,
                     currentLng,
                     point.Lat,
